@@ -1,0 +1,26 @@
+version: "2"
+services:
+  nextcloud:
+    image: nextcloud
+    container_name: "nextcloud"
+    volumes:
+      - "nextcloud-data:/opt/nextcloud"
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    environment:
+      NEXTCLOUD_DB_HOST: "db:3306"
+  db:
+    image: mysql:5.7
+    container_name: "nextcloud-db"
+    volumes:
+      - "db-data:/var/lib/mysql"
+    environment:
+        MYSQL_DATABASE: nextcloud
+        MYSQL_ROOT_PASSWORD: nextcloud
+volumes:
+  db-data:
+    driver: local
+  nextcloud-data:
+    driver: local
